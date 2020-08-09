@@ -1,0 +1,31 @@
+{
+  "name": "wk10-bootcamp",
+  "version": "1.0.0",
+  "description": "Wk 10 bootcamp assignment OOP HW Template Engine - Employee Summary",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gundamtrooperx/Wk10-bootcamp.git"
+  },
+  "keywords": [
+    "OOP's",
+    "abbreviated",
+    "concepts"
+  ],
+  "author": "Frank Carr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gundamtrooperx/Wk10-bootcamp/issues"
+  },
+  "homepage": "https://github.com/gundamtrooperx/Wk10-bootcamp#readme",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}
