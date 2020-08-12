@@ -4,38 +4,39 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-let employeeArray = [];
+let managerArray = [];
+let engineerArray = [];
+let internArray = [];
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 company()
-function company () {
+function company() {
     inquirer.prompt(
         [
             {
                 type: "list",
-                choices: ["Manager", "Engineer", "Intern", "Exit application"], 
+                choices: ["Manager", "Engineer", "Intern", "Exit application"],
                 name: "userchoice",
                 message: "select option",
-                
+
             }
         ]
-    ).then(function (response){
+    ).then(function (response) {
         switch (response.userchoice) {
             case "Manager":
                 addempmana()
-                break; 
-                case "Engineer":
+                break;
+            case "Engineer":
                 addempeng()
                 break;
-                case "Intern":
+            case "Intern":
                 addempint()
                 break;
-                default:
-                    generatehtmlfile()
-                    process.exit(0)
+            default:
+                generatehtmlfile()
         }
     })
 }
@@ -63,13 +64,13 @@ function addempmana() {
         },
 
     ])
-    .then(function (response){
-        const userManager = new Manager(response.name, response.id, response.email, response.officeNumber)
-        employeeArray.push(userManager)
-        console.log(employeeArray) 
-        company() 
-        
-    })
+        .then(function (response) {
+            const userManager = new Manager(response.name, response.id, response.email, response.officeNumber)
+            managerArray.push(userManager)
+            console.log(managerArray)
+            company()
+
+        })
 }
 function addempeng() {
     inquirer.prompt([
@@ -91,17 +92,17 @@ function addempeng() {
         {
             type: "input",
             message: "Enter Engineer Github",
-            name: "Github"
+            name: "github"
         },
 
     ])
-    .then(function (response){
-        const userEngineer = new Engineer(response.name, response.id, response.email, response.Github)
-        employeeArray.push(userEngineer)
-        console.log(employeeArray) 
-        company() 
-        
-    })
+        .then(function (response) {
+            const userEngineer = new Engineer(response.name, response.id, response.email, response.github)
+            engineerArray.push(userEngineer)
+            console.log(engineerArray)
+            company()
+
+        })
 }
 function addempint() {
     inquirer.prompt([
@@ -127,13 +128,106 @@ function addempint() {
         },
 
     ])
-    .then(function (response){
-        const userIntern = new Intern(response.name, response.id, response.email, response.School)
-        employeeArray.push(userIntern)
-        console.log(employeeArray) 
-        company() 
-        
-    })
+        .then(function (response) {
+            const userIntern = new Intern(response.name, response.id, response.email, response.School)
+            internArray.push(userIntern)
+            console.log(internArray)
+            company()
+
+        })
+}
+function generatehtmlfile() {
+    var openhtml = `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>My Team</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/c502137733.js"></script>
+    </head>
+    
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 jumbotron mb-3 team-heading">
+                    <h1 class="text-center">My Team</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="team-area col-12 d-flex justify-content-center">`
+    var closinghtml = `
+    </div>
+</div>
+</div>
+</body>
+
+</html>`
+var managerhtml =""
+for (let i = 0; i < managerArray.length; i++ ){
+    managerhtml += `<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">${managerArray[i].name}</h2>
+        <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>Manager</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${managerArray[i].id}</li>
+            <li class="list-group-item">Email: <a href="mailto:${managerArray[i].email}">${managerArray[i].email}</a></li>
+            <li class="list-group-item">Office number:${managerArray[i].officeNumber}</li>
+        </ul>
+    </div>
+</div>
+`
+}
+var internhtml =""
+for (let i = 0; i < internArray.length; i++ ){
+    internhtml += `<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">${internArray[i].name}</h2>
+        <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>Intern</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${internArray[i].id}</li>
+            <li class="list-group-item">Email: <a href="mailto:${internArray[i].email}">${internArray[i].email}</a></li>
+            <li class="list-group-item">School:${internArray[i].school}</li>
+        </ul>
+    </div>
+</div>
+`
+}
+var engineerhtml =""
+for (let i = 0; i < engineerArray.length; i++ ){
+    engineerhtml += `<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">${engineerArray[i].name}</h2>
+        <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>Engineer</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${engineerArray[i].id}</li>
+            <li class="list-group-item">Email: <a href="mailto:${engineerArray[i].email}">${engineerArray[i].email}</a></li>
+            <li class="list-group-item">Github:${engineerArray[i].github}</li>
+        </ul>
+    </div>
+</div>
+`
+}
+console.log(managerArray,engineerArray,internArray)
+console.log(managerhtml,engineerhtml,internhtml)
+    var htmlcontent = openhtml + managerhtml + engineerhtml + internhtml + closinghtml
+    console.log(htmlcontent)
+    fs.writeFileSync("./output/index.html", htmlcontent, function () {
+        console.log("file generator")
+        process.exit(0)
+    }
+    )
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
