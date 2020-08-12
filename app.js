@@ -71,6 +71,38 @@ function addempmana() {
         
     })
 }
+function addempeng() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Enter Engineer name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "Enter Engineer id",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "Enter Engineer email",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "Enter Engineer Github",
+            name: "Github"
+        },
+
+    ])
+    .then(function (response){
+        const userEngineer = new Engineer(response.name, response.id, response.email, response.Github)
+        employeeArray.push(userEngineer)
+        console.log(employeeArray) 
+        company() 
+        
+    })
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
