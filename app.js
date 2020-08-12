@@ -4,13 +4,73 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+let employeeArray = [];
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+company()
+function company () {
+    inquirer.prompt(
+        [
+            {
+                type: "list",
+                choices: ["Manager", "Engineer", "Intern", "Exit application"], 
+                name: "userchoice",
+                message: "select option",
+                
+            }
+        ]
+    ).then(function (response){
+        switch (response.userchoice) {
+            case "Manager":
+                addempmana()
+                break; 
+                case "Engineer":
+                addempeng()
+                break;
+                case "Intern":
+                addempint()
+                break;
+                default:
+                    generatehtmlfile()
+                    process.exit(0)
+        }
+    })
+}
+function addempmana() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Enter Manager name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "Enter Manager id",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "Enter Manager email",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "Enter Manager officeNumber",
+            name: "officeNumber"
+        },
 
-
+    ])
+    .then(function (response){
+        const userManager = new Manager(response.name, response.id, response.email, response.officeNumber)
+        employeeArray.push(userManager)
+        console.log(employeeArray) 
+        company() 
+        
+    })
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
